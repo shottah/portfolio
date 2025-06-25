@@ -28,25 +28,25 @@ export default function MobilePreview({ color, appUrl }: MobilePreviewProps) {
       href={appUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="absolute w-64 h-[540px] bg-gray-900 rounded-[3rem] p-4 shadow-2xl z-20 block cursor-pointer"
+      className="absolute w-48 h-[400px] md:w-56 md:h-[480px] lg:w-64 lg:h-[540px] bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] lg:rounded-[3rem] p-3 md:p-4 shadow-2xl z-20 block cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{ 
         filter: 'drop-shadow(0 25px 50px -12px rgba(0, 0, 0, 0.7))',
-        right: '15%',
-        bottom: '-15%',
+        right: '10%',
+        bottom: '-10%',
         transform: isHovered ? 'scale(1.02)' : 'scale(1)',
         transition: 'transform 0.2s ease-out',
         willChange: 'transform'
       }}
     >
       {/* Phone notch/dynamic island */}
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-24 h-7 bg-gray-900 rounded-full z-10" />
+      <div className="absolute top-3 md:top-4 left-1/2 transform -translate-x-1/2 w-16 h-5 md:w-20 md:h-6 lg:w-24 lg:h-7 bg-gray-900 rounded-full z-10" />
       
       {/* Phone screen */}
-      <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
+      <div className="w-full h-full bg-white rounded-[1.5rem] md:rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden relative">
         {/* Status bar */}
-        <div className="h-8 bg-white text-black flex items-center justify-between px-6 pt-2 text-[11px] font-medium">
+        <div className="h-6 md:h-7 lg:h-8 bg-white text-black flex items-center justify-between px-4 md:px-5 lg:px-6 pt-1 md:pt-1.5 lg:pt-2 text-[9px] md:text-[10px] lg:text-[11px] font-medium">
           <span>9:41</span>
           <div className="flex gap-1 items-center">
             <div className="w-4 h-3 border border-black rounded-sm">
@@ -57,7 +57,7 @@ export default function MobilePreview({ color, appUrl }: MobilePreviewProps) {
         </div>
         
         {/* App content */}
-        <div className="p-4 h-full bg-white">
+        <div className="p-2 md:p-3 lg:p-4 h-full bg-white">
           {getMobilePreviewContent(color)}
         </div>
       </div>

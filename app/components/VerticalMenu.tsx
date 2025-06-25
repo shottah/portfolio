@@ -23,12 +23,42 @@ const colorPairs = [
 export default function VerticalMenu() {
   const [, setHoveredIndex] = useState<number | null>(null);
   const [itemColors, setItemColors] = useState<string[]>(Array(menuItems.length).fill("#f5f5f5"));
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMenuVisible, setIsMenuVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;
       const menuTop = 24; // 6 * 4px (top-6 in tailwind)
+      
+      // Handle mobile menu visibility
+      if (isMobile) {
+        const scrollDifference = scrollY - lastScrollY;
+        
+        // Only update if scroll difference is significant (more than 5px)
+        if (Math.abs(scrollDifference) > 5) {
+          if (scrollDifference > 0 && scrollY > 100) {
+            // Scrolling down and past 100px
+            setIsMenuVisible(false);
+          } else {
+            // Scrolling up
+            setIsMenuVisible(true);
+          }
+          setLastScrollY(scrollY);
+        }
+      }
       
       // Calculate color for each menu item
       const newColors = menuItems.map((_, index) => {
@@ -58,7 +88,7 @@ export default function VerticalMenu() {
     handleScroll(); // Initial check
     
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY, isMobile]);
 
   const handleMouseEnter = (index: number, element: HTMLElement) => {
     setHoveredIndex(index);
@@ -92,7 +122,12 @@ export default function VerticalMenu() {
   };
 
   return (
-    <nav className="fixed top-6 right-6 z-50">
+    <nav 
+      className="fixed top-6 right-6 z-50 transition-transform duration-300 ease-in-out"
+      style={{
+        transform: isMenuVisible ? 'translateX(0)' : 'translateX(calc(100% + 24px))'
+      }}
+    >
       <ul className="space-y-1">
         {menuItems.map((item, index) => (
           <li key={index}>
