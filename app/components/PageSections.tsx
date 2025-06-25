@@ -1,4 +1,5 @@
 import SectionHeader from "./SectionHeader";
+import ProjectsSection from "./ProjectsSection";
 
 export default function PageSections() {
   return (
@@ -8,10 +9,8 @@ export default function PageSections() {
         <SectionHeader title="ABOUT" />
       </section>
       
-      {/* PROJECTS - Black background */}
-      <section id="projects" className="h-screen bg-[#0a0a0a] flex items-center justify-center p-8">
-        <SectionHeader title="PROJECTS" isDark />
-      </section>
+      {/* PROJECTS - Uses custom ProjectsSection component */}
+      <ProjectsSection />
       
       {/* EXPERIENCE - White background */}
       <section id="experience" className="h-screen bg-white flex items-center justify-center p-8">
