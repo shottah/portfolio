@@ -5,9 +5,10 @@ import { useTransition } from "react";
 
 interface YearNavigationProps {
   selectedYear: number;
+  isMobile?: boolean;
 }
 
-export default function YearNavigation({ selectedYear }: YearNavigationProps) {
+export default function YearNavigation({ selectedYear, isMobile = false }: YearNavigationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -43,13 +44,19 @@ export default function YearNavigation({ selectedYear }: YearNavigationProps) {
   };
   
   return (
-    <div className="absolute top-8 left-8 grid grid-cols-3 gap-x-4 gap-y-2">
+    <div className={`${
+      isMobile 
+        ? 'flex flex-wrap justify-center gap-3' 
+        : 'absolute top-8 left-8 grid grid-cols-3 gap-x-4 gap-y-2'
+    }`}>
       {years.map((year) => (
         <button
           key={year}
           onClick={() => handleYearChange(year)}
           disabled={isPending}
-          className={`text-sm font-medium transition-colors text-left ${
+          className={`text-sm font-medium transition-colors ${
+            isMobile ? 'px-3 py-1' : 'text-left'
+          } ${
             selectedYear === year
               ? 'text-[#0a0a0a]'
               : 'text-gray-400 hover:text-gray-600'

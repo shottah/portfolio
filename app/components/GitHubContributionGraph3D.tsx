@@ -83,9 +83,17 @@ function CameraController() {
   const [isHijacking, setIsHijacking] = useState(false);
   const animationProgress = useRef(0);
   const lastScrollY = useRef(0);
+  const isMobile = useRef(false);
+  const touchStartY = useRef(0);
+  const lastTouchY = useRef(0);
 
   useEffect(() => {
+    // Check if mobile
+    isMobile.current = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
     const handleWheel = (e: WheelEvent) => {
+      if (isMobile.current) return; // Skip wheel handler on mobile
+      
       const experienceSection = document.getElementById('experience');
       if (!experienceSection) return;
 
@@ -123,6 +131,52 @@ function CameraController() {
       }
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      if (!isMobile.current) return;
+      touchStartY.current = e.touches[0].clientY;
+      lastTouchY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isMobile.current) return;
+      
+      const experienceSection = document.getElementById('experience');
+      if (!experienceSection) return;
+
+      const rect = experienceSection.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const tolerance = windowHeight * 0.05;
+      
+      const sectionFillsViewport = rect.top <= tolerance && rect.bottom >= windowHeight - tolerance;
+      
+      if (sectionFillsViewport) {
+        const currentY = e.touches[0].clientY;
+        const delta = lastTouchY.current - currentY; // Inverted for natural scroll
+        lastTouchY.current = currentY;
+        
+        // Check if we should hijack based on direction and current progress
+        const shouldHijack = (delta > 0 && animationProgress.current < 1) || 
+                           (delta < 0 && animationProgress.current > 0);
+        
+        if (shouldHijack) {
+          // Prevent default scrolling
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Update animation progress based on touch delta
+          const scrollSpeed = 0.005; // Adjusted for touch sensitivity
+          const newProgress = Math.max(0, Math.min(1, animationProgress.current + delta * scrollSpeed));
+          animationProgress.current = newProgress;
+          setScrollProgress(newProgress);
+          setIsHijacking(true);
+        } else {
+          setIsHijacking(false);
+        }
+      } else {
+        setIsHijacking(false);
+      }
+    };
+
     const handleScroll = () => {
       const experienceSection = document.getElementById('experience');
       if (!experienceSection) return;
@@ -147,25 +201,50 @@ function CameraController() {
         }
       }
       
+      // For mobile, also calculate progress based on normal scroll position
+      if (isMobile.current && sectionFillsViewport && !isHijacking) {
+        const sectionHeight = rect.height;
+        const scrollableHeight = sectionHeight - windowHeight;
+        const scrolledInSection = -rect.top;
+        const progress = Math.max(0, Math.min(1, scrolledInSection / scrollableHeight));
+        animationProgress.current = progress;
+        setScrollProgress(progress);
+      }
+      
       lastScrollY.current = window.scrollY;
     };
 
+    // Add event listeners
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Mobile touch events
+    if (isMobile.current) {
+      window.addEventListener('touchstart', handleTouchStart, { passive: true });
+      window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    }
+    
     handleScroll(); // Initial call
     
     return () => {
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('scroll', handleScroll);
+      if (isMobile.current) {
+        window.removeEventListener('touchstart', handleTouchStart);
+        window.removeEventListener('touchmove', handleTouchMove);
+      }
     };
   }, [isHijacking]);
 
   useFrame(() => {
-    // Interpolate camera position based on scroll
-    // Bird's eye view: [0, 30, 0] - closer for more zoom
-    // Front view: [0, 8, 25] - closer for more zoom
-    const startPos = { x: 0, y: 30, z: 0 };
-    const endPos = { x: 0, y: 8, z: 25 };
+    // Adjust camera positions for mobile vs desktop
+    const startPos = isMobile.current 
+      ? { x: 0, y: 45, z: 0 }  // Higher view for mobile to see more
+      : { x: 0, y: 30, z: 0 };
+    
+    const endPos = isMobile.current
+      ? { x: 0, y: 12, z: 35 } // Further back on mobile for wider view
+      : { x: 0, y: 8, z: 25 };
     
     camera.position.x = startPos.x + (endPos.x - startPos.x) * scrollProgress;
     camera.position.y = startPos.y + (endPos.y - startPos.y) * scrollProgress;
@@ -208,6 +287,12 @@ export default function GitHubContributionGraph3D({ username, year, initialData 
   const [contributionData, setContributionData] = React.useState<GitHubContributionData | null>(initialData || null);
   const [loading, setLoading] = React.useState(!initialData);
   const [error, setError] = React.useState<string | null>(null);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  useEffect(() => {
+    // Check if mobile on mount
+    setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+  }, []);
 
   useEffect(() => {
     // Update data when initialData changes (year changes)
@@ -262,10 +347,11 @@ export default function GitHubContributionGraph3D({ username, year, initialData 
   }
 
   return (
-    <div className="w-full h-[600px]">
+    <div className="w-full h-[600px] overflow-hidden">
       <Canvas
-        camera={{ position: [0, 30, 0], fov: 50 }}
+        camera={{ position: [0, 30, 0], fov: isMobile ? 65 : 50 }}
         shadows
+        style={{ width: '100%', height: '100%' }}
       >
         <ambientLight intensity={0.5} />
         <directionalLight

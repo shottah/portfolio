@@ -35,13 +35,22 @@ export default async function ExperienceSection({ searchParams }: ExperienceSect
   const contributionData = await getGitHubContributions('shottah', validYear);
   
   return (
-    <section id="experience" className="h-screen bg-white flex flex-col items-center justify-center p-4 relative">
-      {/* Year breadcrumbs in top left */}
-      <YearNavigation selectedYear={validYear} />
+    <section id="experience" className="min-h-screen bg-white flex flex-col items-center justify-center p-4 py-16 md:py-4 relative">
+      {/* Year navigation - positioned differently on mobile */}
+      <div className="hidden md:block">
+        <YearNavigation selectedYear={validYear} />
+      </div>
       
-      <SectionHeader title="EXPERIENCE" />
+      <div className="mt-8 md:mt-0">
+        <SectionHeader title="EXPERIENCE" />
+      </div>
       
-      <div className="w-full mt-8">
+      {/* Year navigation below header on mobile */}
+      <div className="md:hidden mt-4">
+        <YearNavigation selectedYear={validYear} isMobile={true} />
+      </div>
+      
+      <div className="w-full max-w-full overflow-hidden mt-8">
         <p className="text-center text-gray-600 mb-8">
           GitHub Contributions in {validYear}
         </p>
