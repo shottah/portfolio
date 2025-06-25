@@ -8,7 +8,6 @@ const menuItems = [
   { label: "ABOUT", href: "#about" },
   { label: "PROJECTS", href: "#projects" },
   { label: "EXPERIENCE", href: "#experience" },
-  { label: "SKILLS", href: "#skills" },
   { label: "CONTACT", href: "#contact" },
 ];
 

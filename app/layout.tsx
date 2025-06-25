@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
 import CustomCursor from "./components/CustomCursor";
-import ScrollSnap from "./components/ScrollSnap";
 import "./globals.css";
 
 const notoSans = Noto_Sans({
@@ -68,7 +67,6 @@ export default function RootLayout({
         className={`${notoSans.variable} font-sans antialiased`}
       >
         <CustomCursor />
-        <ScrollSnap />
         {children}
       </body>
     </html>

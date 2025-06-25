@@ -54,16 +54,5 @@ export const projects: Project[] = [
     link: "https://web.archive.org/web/20220507050821/https://americana.io/",
     color: "#FFFFFF", // White
     year: "2022"
-  },
-  {
-    id: 5,
-    title: "Real-Time Collaboration Suite",
-    subtitle: "Enterprise Productivity Tools",
-    description: "Created a suite of collaborative tools featuring real-time document editing, video conferencing, project management, and team chat. Optimized for performance with sub-100ms latency and supporting 10K+ concurrent users.",
-    technologies: ["Angular", "Socket.io", "Golang", "WebAssembly", "RabbitMQ", "CockroachDB"],
-    link: "https://collab-suite.example.com",
-    github: "https://github.com/matthewabr/collab-suite",
-    color: "rgb(251, 146, 60)", // Orange
-    year: "2022"
   }
 ];

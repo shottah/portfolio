@@ -40,32 +40,37 @@ export default function ProjectsSection() {
       const isInSection = rect.top <= 100 && rect.bottom >= window.innerHeight - 100;
 
       if (isInSection) {
-        e.preventDefault();
+        // Use horizontal scroll (deltaX) if available, otherwise use vertical scroll (deltaY)
+        const horizontalDelta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
         
-        const delta = e.deltaY;
-        const scrollSpeed = 1; // Adjust for sensitivity
+        // Only prevent default if we're actually scrolling horizontally within bounds
         const projectWidth = window.innerWidth;
         const maxScroll = (projects.length - 1) * projectWidth;
+        const newScrollPosition = scrollPosition + horizontalDelta;
         
-        // Calculate new scroll position
-        const newScrollPosition = scrollPosition + (delta * scrollSpeed);
-        
-        // Check bounds
-        if (newScrollPosition < 0 && delta < 0) {
-          // At beginning, allow scrolling to previous section
-          const prevSection = document.querySelector('#about');
-          if (prevSection) {
-            prevSection.scrollIntoView({ behavior: 'smooth' });
+        // Check if we should handle this scroll event
+        if (horizontalDelta === e.deltaY) {
+          // Using vertical scroll - check bounds
+          // Only allow section transition if we're at the exact edge (current project is 0 or last)
+          if (currentProject === 0 && horizontalDelta < 0) {
+            // At first project and scrolling left, allow scrolling to previous section
+            const prevSection = document.querySelector('#about');
+            if (prevSection) {
+              prevSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            return;
+          } else if (currentProject === projects.length - 1 && horizontalDelta > 0) {
+            // At last project and scrolling right, allow scrolling to next section
+            const nextSection = document.querySelector('#experience');
+            if (nextSection) {
+              nextSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            return;
           }
-          return;
-        } else if (newScrollPosition > maxScroll && delta > 0) {
-          // At end, allow scrolling to next section
-          const nextSection = document.querySelector('#experience');
-          if (nextSection) {
-            nextSection.scrollIntoView({ behavior: 'smooth' });
-          }
-          return;
         }
+        
+        // Prevent default for horizontal scrolling
+        e.preventDefault();
         
         // Clamp to valid range
         const clampedPosition = Math.max(0, Math.min(maxScroll, newScrollPosition));
