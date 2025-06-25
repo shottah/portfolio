@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from 'next/dynamic';
+import ContributionGraphErrorBoundary from './ContributionGraphErrorBoundary';
 
 const GitHubContributionGraph3D = dynamic(
   () => import('./GitHubContributionGraph3D'),
@@ -33,10 +34,12 @@ interface GitHubContributionGraphWrapperProps {
 
 export default function GitHubContributionGraphWrapper({ username, year, initialData }: GitHubContributionGraphWrapperProps) {
   return (
-    <GitHubContributionGraph3D 
-      username={username} 
-      year={year}
-      initialData={initialData}
-    />
+    <ContributionGraphErrorBoundary>
+      <GitHubContributionGraph3D 
+        username={username} 
+        year={year}
+        initialData={initialData}
+      />
+    </ContributionGraphErrorBoundary>
   );
 }
