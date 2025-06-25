@@ -239,7 +239,7 @@ export default function ProjectsSection() {
       {/* Scroll container - vertical on mobile, horizontal on desktop */}
       {isMobile ? (
         <div className="flex flex-col gap-4">
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <div 
               key={project.id}
               className="min-h-[50vh]"
