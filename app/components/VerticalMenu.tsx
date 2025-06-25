@@ -21,7 +21,7 @@ const colorPairs = [
 ];
 
 export default function VerticalMenu() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [, setHoveredIndex] = useState<number | null>(null);
   const [itemColors, setItemColors] = useState<string[]>(Array(menuItems.length).fill("#f5f5f5"));
   
   useEffect(() => {

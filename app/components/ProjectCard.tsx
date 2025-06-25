@@ -100,7 +100,7 @@ interface ProjectPreviewProps {
   appUrl?: string;
   color: string;
   isContentVisible: boolean;
-  imageRef: React.RefObject<HTMLDivElement>;
+  imageRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const ProjectPreview = ({ projectUrl, appUrl, color, isContentVisible, imageRef }: ProjectPreviewProps) => {

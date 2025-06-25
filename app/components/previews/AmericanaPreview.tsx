@@ -2,7 +2,7 @@ interface AmericanaPreviewProps {
   color: string;
 }
 
-export default function AmericanaPreview({ color }: AmericanaPreviewProps) {
+export default function AmericanaPreview({ }: AmericanaPreviewProps) {
   return (
     <>
       {/* Header */}

@@ -79,6 +79,7 @@ export async function GET(request: NextRequest) {
 }
 
 // Alternative implementation using web scraping if you don't want to use GitHub API token
+/*
 export async function GET_SCRAPING(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const username = searchParams.get('username');
@@ -146,3 +147,4 @@ export async function GET_SCRAPING(request: NextRequest) {
     );
   }
 }
+*/

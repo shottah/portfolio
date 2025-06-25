@@ -24,6 +24,7 @@ const colorPairs = [
 export default function AnimatedAdjectives({ adjectives, width, isPaused = false, mousePosition = 0 }: AnimatedAdjectivesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const animationRef = useRef<any>(null);
   const currentXRef = useRef(0);
   const isInitializedRef = useRef(false);
@@ -44,7 +45,7 @@ export default function AnimatedAdjectives({ adjectives, width, isPaused = false
     }
     
     // Start position - off screen to the left
-    const containerWidth = containerRef.current.offsetWidth;
+    // const containerWidth = containerRef.current.offsetWidth;
     const startX = -totalWidth - 100;
     
     // Set initial position

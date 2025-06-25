@@ -1,4 +1,3 @@
-import SectionHeader from "./SectionHeader";
 import ProjectsSection from "./ProjectsSection";
 import AboutSection from "./AboutSection";
 import ContactSection from "./ContactSection";

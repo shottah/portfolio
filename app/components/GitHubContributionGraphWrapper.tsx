@@ -14,10 +14,21 @@ const GitHubContributionGraph3D = dynamic(
   }
 );
 
+interface GitHubContributionData {
+  totalContributions: number;
+  weeks: Array<{
+    contributionDays: Array<{
+      date: string;
+      contributionCount: number;
+      color: string;
+    }>;
+  }>;
+}
+
 interface GitHubContributionGraphWrapperProps {
   username: string;
   year: number;
-  initialData: any;
+  initialData: GitHubContributionData | null;
 }
 
 export default function GitHubContributionGraphWrapper({ username, year, initialData }: GitHubContributionGraphWrapperProps) {

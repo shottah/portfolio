@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { RoundedBox } from '@react-three/drei';
-import * as THREE from 'three';
+// import * as THREE from 'three';
 
 interface ContributionDay {
   date: string;
@@ -77,7 +77,7 @@ function ContributionBox({ position, contributions }: ContributionBoxProps) {
   );
 }
 
-function CameraController({ key }: { key: string }) {
+function CameraController() {
   const { camera } = useThree();
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isHijacking, setIsHijacking] = useState(false);
