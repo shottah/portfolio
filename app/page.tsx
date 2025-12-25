@@ -1,34 +1,24 @@
-import VerticalMenu from "./components/VerticalMenu";
-import HomeSection from "./components/HomeSection";
-import PageSections from "./components/PageSections";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { promises as fs } from "fs";
+import path from "path";
+import remarkGfm from "remark-gfm";
+import { mdxComponents } from "./mdx-components";
 
-interface HomeProps {
-	searchParams: Promise<{ year?: string }>;
-}
+export default async function Home() {
+  const content = await fs.readFile(
+    path.join(process.cwd(), "content", "index.md"),
+    "utf-8"
+  );
 
-// This is a server component by default - optimized for SSR
-export default async function Home({ searchParams }: HomeProps) {
-	const params = await searchParams;
-	// Static data that can be rendered on the server
-	const adjectives = [
-		"Lead",
-		"Front End",
-		"Back End",
-		"Mobile",
-		"Problem Solver",
-		"Software Architect",
-		"Builder"
-	];
-
-	return (
-		<>
-			<VerticalMenu />
-			
-			{/* HOME section with proper loading state */}
-			<HomeSection adjectives={adjectives} />
-			
-			{/* Static sections are server-rendered */}
-			<PageSections searchParams={params} />
-		</>
-	);
+  return (
+    <MDXRemote
+      source={content}
+      components={mdxComponents}
+      options={{
+        mdxOptions: {
+          remarkPlugins: [remarkGfm],
+        },
+      }}
+    />
+  );
 }
