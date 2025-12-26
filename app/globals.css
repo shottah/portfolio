@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Theme Colors */
 :root,
 [data-theme="dark"] {
   --background: #1a1a1a;
@@ -17,12 +18,14 @@
   --link: #4060b0;
 }
 
+/* Tailwind Theme Integration */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-mono: var(--font-source-code);
 }
 
+/* Base Styles */
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -31,10 +34,12 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-source-code), 'Source Code Pro', 'Monaco', 'Consolas', monospace;
+  font-family: var(--font-source-code), "Source Code Pro", Monaco, Consolas, monospace;
   line-height: 1.6;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+/* Link Styles */
 a {
   color: var(--link);
   text-decoration: none;
@@ -44,8 +49,8 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Nested list indentation */
+/* Nested List Indentation */
 .nested-list .nested-list {
-  margin-left: 1.5rem !important;
-  margin-bottom: 0 !important;
+  margin-left: 1.5rem;
+  margin-bottom: 0;
 }

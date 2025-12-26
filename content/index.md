@@ -7,18 +7,24 @@ London, England, United Kingdom
 ## Work
 
 - 2022/03 - present: [Zed Labs](https://kolektivo.network) - Lead Software Developer
-- 2023/01 - 2023/04: [Americana](https://americana.io) - Full Stack Blockchain Developer
+- 2023/01 - 2023/04: [Americana](https://americana.io) - Web3 Integration
 - 2021/06 - 2022/03: [Davyn](https://davyntt.com) - Senior Software Developer
 - 2020/07 - 2021/06: [Davyn](https://davyntt.com) - Software Developer
 
 ## Stuff I Do
 
 - payment systems [Web3 & Mobile Banking]
-- TypeScript [https://www.typescriptlang.org/](https://www.typescriptlang.org/)
-- React / React Native [https://react.dev/](https://react.dev/)
-- Node.js [https://nodejs.org/](https://nodejs.org/)
+  - caribbean e-money [wam.money](https://wam.money)
+  - localized regenerative finance [kolektivo.co](https://kolektivo.co)
 - blockchain [DeFi, RWA tokenization]
+  - collectibles marketplace [AmericanaNFT](https://x.com/AmericanaNFT)
 - writing code [https://github.com/shottah](https://github.com/shottah)
+
+## Tools
+
+- TypeScript [https://www.typescriptlang.org/](https://www.typescriptlang.org/)
+- Expo / React Native [https://expo.dev/](https://expo.dev/)
+- Node.js [https://nodejs.org/](https://nodejs.org/)
 
 ## Education
 

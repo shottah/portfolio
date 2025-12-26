@@ -2,7 +2,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { promises as fs } from "fs";
 import path from "path";
 import remarkGfm from "remark-gfm";
-import { mdxComponents } from "./mdx-components";
+import { mdxComponents } from "./components/mdx";
 
 export default async function Home() {
   const content = await fs.readFile(
