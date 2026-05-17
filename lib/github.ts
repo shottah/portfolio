@@ -19,6 +19,7 @@ function githubHeaders(): HeadersInit {
 }
 
 const EXCLUDED_OWNER_SUBSTRINGS = [
+  "shottah",
   "zed",
   "vifi",
   "oneramp",
@@ -68,7 +69,7 @@ async function fetchSearchPage(
   page: number
 ): Promise<GitHubResult<GitHubSearchResponse>> {
   const url = new URL(`${GITHUB_API}/search/issues`);
-  url.searchParams.set("q", `author:${USERNAME} -user:${USERNAME}`);
+  url.searchParams.set("q", `is:public author:${USERNAME}`);
   url.searchParams.set("per_page", String(PAGE_SIZE));
   url.searchParams.set("page", String(page));
   url.searchParams.set("sort", "updated");
