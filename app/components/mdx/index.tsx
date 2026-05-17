@@ -19,10 +19,3 @@ export const mdxComponents: MDXComponents = {
   hr: HorizontalRule,
   wrapper: Wrapper,
 };
-
-export function useMDXComponents(components: MDXComponents): MDXComponents {
-  return {
-    ...components,
-    ...mdxComponents,
-  };
-}
