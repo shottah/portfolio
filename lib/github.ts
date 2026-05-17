@@ -6,6 +6,17 @@ const REVALIDATE_SECONDS = 60 * 60 * 24;
 const PAGE_SIZE = 100;
 const MAX_PAGES = 10;
 
+const EXCLUDED_OWNER_SUBSTRINGS = ["zed", "vifi", "oneramp", "kolektivo"];
+
+function ownerOf(item: GitHubSearchItem): string {
+  return repoFullName(item).split("/")[0].toLowerCase();
+}
+
+function isExcludedOwner(item: GitHubSearchItem): boolean {
+  const owner = ownerOf(item);
+  return EXCLUDED_OWNER_SUBSTRINGS.some((s) => owner.includes(s));
+}
+
 export type GitHubResult<T> =
   | { ok: true; data: T }
   | { ok: false; error: string };
@@ -68,12 +79,14 @@ export const fetchContributions = cache(
     for (let page = 1; page <= MAX_PAGES; page++) {
       const res = await fetchSearchPage(page);
       if (!res.ok) {
-        return page === 1 ? res : { ok: true, data: all };
+        return page === 1
+          ? res
+          : { ok: true, data: all.filter((item) => !isExcludedOwner(item)) };
       }
       all.push(...res.data.items);
       if (res.data.items.length < PAGE_SIZE) break;
     }
-    return { ok: true, data: all };
+    return { ok: true, data: all.filter((item) => !isExcludedOwner(item)) };
   }
 );
 
