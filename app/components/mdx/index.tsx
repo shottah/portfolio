@@ -4,7 +4,6 @@ import { Paragraph, Strong, Emphasis } from "./Text";
 import { UnorderedList, ListItem } from "./List";
 import { Anchor } from "./Link";
 import { HorizontalRule } from "./Divider";
-import { Wrapper } from "./Wrapper";
 
 export const mdxComponents: MDXComponents = {
   h1: H1,
@@ -17,5 +16,4 @@ export const mdxComponents: MDXComponents = {
   strong: Strong,
   em: Emphasis,
   hr: HorizontalRule,
-  wrapper: Wrapper,
 };
