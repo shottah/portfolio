@@ -4,6 +4,7 @@ import path from "path";
 import remarkGfm from "remark-gfm";
 import { mdxComponents } from "./components/mdx";
 import { Wrapper } from "./components/mdx/Wrapper";
+import { Languages } from "./components/oss/Languages";
 import { Orgs } from "./components/oss/Orgs";
 import { Contributions } from "./components/oss/Contributions";
 
@@ -24,6 +25,7 @@ export default async function Home() {
           },
         }}
       />
+      <Languages />
       <Orgs />
       <Contributions />
     </Wrapper>

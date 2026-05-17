@@ -21,12 +21,6 @@ London, England, United Kingdom
   - collectibles marketplace [AmericanaNFT](https://x.com/AmericanaNFT)
 - writing code [https://github.com/shottah](https://github.com/shottah)
 
-## Tools
-
-- TypeScript [https://www.typescriptlang.org/](https://www.typescriptlang.org/)
-- Expo / React Native [https://expo.dev/](https://expo.dev/)
-- Node.js [https://nodejs.org/](https://nodejs.org/)
-
 ## Education
 
 - [University of the West Indies, St. Augustine](https://www.uwi.edu)
