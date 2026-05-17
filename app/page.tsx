@@ -3,6 +3,9 @@ import { promises as fs } from "fs";
 import path from "path";
 import remarkGfm from "remark-gfm";
 import { mdxComponents } from "./components/mdx";
+import { Wrapper } from "./components/mdx/Wrapper";
+import { Orgs } from "./components/oss/Orgs";
+import { Contributions } from "./components/oss/Contributions";
 
 export default async function Home() {
   const content = await fs.readFile(
@@ -11,14 +14,18 @@ export default async function Home() {
   );
 
   return (
-    <MDXRemote
-      source={content}
-      components={mdxComponents}
-      options={{
-        mdxOptions: {
-          remarkPlugins: [remarkGfm],
-        },
-      }}
-    />
+    <Wrapper>
+      <MDXRemote
+        source={content}
+        components={mdxComponents}
+        options={{
+          mdxOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        }}
+      />
+      <Orgs />
+      <Contributions />
+    </Wrapper>
   );
 }
