@@ -144,7 +144,6 @@ const EXCLUDED_LANGUAGES = new Set([
 ]);
 
 interface GitHubOwnedRepo {
-  fork: boolean;
   archived: boolean;
   disabled: boolean;
   languages_url: string;
@@ -171,7 +170,7 @@ async function fetchOwnedRepos(): Promise<GitHubResult<GitHubOwnedRepo[]>> {
     const repos = (await res.json()) as GitHubOwnedRepo[];
     return {
       ok: true,
-      data: repos.filter((r) => !r.fork && !r.archived && !r.disabled),
+      data: repos.filter((r) => !r.archived && !r.disabled),
     };
   } catch (err) {
     return {
