@@ -6,7 +6,8 @@ London, England, United Kingdom
 
 ## Work
 
-- 2022/03 - present: [Zed Labs](https://kolektivo.network) - Lead Software Developer
+- 2026/01 - present: [Vifi Labs](https://vifilabs.xyz) - Founding Engineer
+- 2022/03 - 2026/01: [Zed Labs](https://zed.io) - Lead Software Developer
 - 2023/01 - 2023/04: [Americana](https://americana.io) - Web3 Integration
 - 2021/06 - 2022/03: [Davyn](https://davyntt.com) - Senior Software Developer
 - 2020/07 - 2021/06: [Davyn](https://davyntt.com) - Software Developer
