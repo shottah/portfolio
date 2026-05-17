@@ -6,7 +6,16 @@ const REVALIDATE_SECONDS = 60 * 60 * 24;
 const PAGE_SIZE = 100;
 const MAX_PAGES = 10;
 
-const EXCLUDED_OWNER_SUBSTRINGS = ["zed", "vifi", "oneramp", "kolektivo"];
+const EXCLUDED_OWNER_SUBSTRINGS = [
+  "zed",
+  "vifi",
+  "oneramp",
+  "kolektivo",
+  "uwi",
+  "varoun",
+  "timlrx",
+  "whitney",
+];
 
 function ownerOf(item: GitHubSearchItem): string {
   return repoFullName(item).split("/")[0].toLowerCase();
