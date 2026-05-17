@@ -6,6 +6,18 @@ const REVALIDATE_SECONDS = 60 * 60 * 24;
 const PAGE_SIZE = 100;
 const MAX_PAGES = 10;
 
+function githubHeaders(): HeadersInit {
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+  const token = process.env.GITHUB_TOKEN;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return headers;
+}
+
 const EXCLUDED_OWNER_SUBSTRINGS = [
   "zed",
   "vifi",
@@ -64,10 +76,7 @@ async function fetchSearchPage(
 
   try {
     const res = await fetch(url, {
-      headers: {
-        Accept: "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
+      headers: githubHeaders(),
       next: { revalidate: REVALIDATE_SECONDS, tags: ["github"] },
     });
     if (!res.ok) {
@@ -158,10 +167,7 @@ async function fetchOwnedRepos(): Promise<GitHubResult<GitHubOwnedRepo[]>> {
 
   try {
     const res = await fetch(url, {
-      headers: {
-        Accept: "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
+      headers: githubHeaders(),
       next: { revalidate: REVALIDATE_SECONDS, tags: ["github"] },
     });
     if (!res.ok) {
@@ -185,10 +191,7 @@ async function fetchRepoLanguages(
 ): Promise<GitHubResult<Record<string, number>>> {
   try {
     const res = await fetch(languagesUrl, {
-      headers: {
-        Accept: "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
+      headers: githubHeaders(),
       next: { revalidate: REVALIDATE_SECONDS, tags: ["github"] },
     });
     if (!res.ok) {
