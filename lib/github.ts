@@ -65,11 +65,14 @@ interface GitHubSearchResponse {
   items: GitHubSearchItem[];
 }
 
+type SearchType = "pull-request" | "issue";
+
 async function fetchSearchPage(
+  type: SearchType,
   page: number
 ): Promise<GitHubResult<GitHubSearchResponse>> {
   const url = new URL(`${GITHUB_API}/search/issues`);
-  url.searchParams.set("q", `is:public author:${USERNAME}`);
+  url.searchParams.set("q", `is:${type} is:public author:${USERNAME}`);
   url.searchParams.set("per_page", String(PAGE_SIZE));
   url.searchParams.set("page", String(page));
   url.searchParams.set("sort", "updated");
@@ -92,19 +95,34 @@ async function fetchSearchPage(
   }
 }
 
+async function fetchAllOfType(
+  type: SearchType
+): Promise<GitHubResult<GitHubSearchItem[]>> {
+  const items: GitHubSearchItem[] = [];
+  for (let page = 1; page <= MAX_PAGES; page++) {
+    const res = await fetchSearchPage(type, page);
+    if (!res.ok) {
+      return page === 1 ? res : { ok: true, data: items };
+    }
+    items.push(...res.data.items);
+    if (res.data.items.length < PAGE_SIZE) break;
+  }
+  return { ok: true, data: items };
+}
+
 export const fetchContributions = cache(
   async (): Promise<GitHubResult<GitHubSearchItem[]>> => {
-    const all: GitHubSearchItem[] = [];
-    for (let page = 1; page <= MAX_PAGES; page++) {
-      const res = await fetchSearchPage(page);
-      if (!res.ok) {
-        return page === 1
-          ? res
-          : { ok: true, data: all.filter((item) => !isExcludedOwner(item)) };
-      }
-      all.push(...res.data.items);
-      if (res.data.items.length < PAGE_SIZE) break;
-    }
+    const [prs, issues] = await Promise.all([
+      fetchAllOfType("pull-request"),
+      fetchAllOfType("issue"),
+    ]);
+
+    if (!prs.ok && !issues.ok) return prs;
+
+    const all = [
+      ...(prs.ok ? prs.data : []),
+      ...(issues.ok ? issues.data : []),
+    ];
     return { ok: true, data: all.filter((item) => !isExcludedOwner(item)) };
   }
 );
