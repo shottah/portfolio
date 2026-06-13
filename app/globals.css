@@ -54,3 +54,21 @@ a:hover {
   margin-left: 1.5rem;
   margin-bottom: 0;
 }
+
+/* Nav Dropdown */
+.nav-dropdown > summary {
+  list-style: none;
+}
+
+.nav-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-dropdown > summary .caret {
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+.nav-dropdown[open] > summary .caret {
+  transform: rotate(90deg);
+}
