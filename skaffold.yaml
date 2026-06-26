@@ -35,7 +35,7 @@ customActions:
             # Patch firebase-tools: SHARP_VERSION "^0.32 || ^0.33" excludes ^0.34 which
             # Next.js 15.3+ requires. npm ci then fails because 0.34.x doesn't satisfy
             # the constraint. Adding ^0.34 fixes the lockfile/package.json mismatch.
-            CONSTANTS=$(node -e "console.log(require.resolve('firebase-tools/lib/frameworks/constants'))")
+            CONSTANTS="$(npm root -g)/firebase-tools/lib/frameworks/constants.js"
             sed -i 's/exports\.SHARP_VERSION = "\^0\.32 || \^0\.33"/exports.SHARP_VERSION = "^0.32 || ^0.33 || ^0.34"/' "$CONSTANTS"
 
             firebase experiments:enable webframeworks
