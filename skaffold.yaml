@@ -32,11 +32,25 @@ customActions:
             # Install deps and deploy
             npm install -g firebase-tools
 
-            # Patch firebase-tools: SHARP_VERSION "^0.32 || ^0.33" excludes ^0.34 which
+            # Patch 1: SHARP_VERSION "^0.32 || ^0.33" excludes ^0.34 which
             # Next.js 15.3+ requires. npm ci then fails because 0.34.x doesn't satisfy
             # the constraint. Adding ^0.34 fixes the lockfile/package.json mismatch.
             CONSTANTS="$(npm root -g)/firebase-tools/lib/frameworks/constants.js"
             sed -i 's/exports\.SHARP_VERSION = "\^0\.32 || \^0\.33"/exports.SHARP_VERSION = "^0.32 || ^0.33 || ^0.34"/' "$CONSTANTS"
+
+            # Patch 2: The default compute SA (770617326380-compute@developer.gserviceaccount.com)
+            # was deleted from this project. Firebase hardcodes a lookup for it and uses it as
+            # the Cloud Function runtime SA. Override getDefaultServiceAccount to return the
+            # dedicated deploy-runner SA instead.
+            COMPUTE_ENGINE_JS="$(npm root -g)/firebase-tools/lib/gcp/computeEngine.js"
+            cat > "$COMPUTE_ENGINE_JS" << 'PATCH'
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getDefaultServiceAccount = getDefaultServiceAccount;
+async function getDefaultServiceAccount(_projectNumber) {
+    return "deploy-runner@strata-org.iam.gserviceaccount.com";
+}
+PATCH
 
             firebase experiments:enable webframeworks
             corepack enable pnpm
