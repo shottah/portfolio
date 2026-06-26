@@ -38,13 +38,6 @@ customActions:
             CONSTANTS="$(npm root -g)/firebase-tools/lib/frameworks/constants.js"
             sed -i 's/exports\.SHARP_VERSION = "\^0\.32 || \^0\.33"/exports.SHARP_VERSION = "^0.32 || ^0.33 || ^0.34"/' "$CONSTANTS"
 
-            # Patch 2: The default compute SA (770617326380-compute@developer.gserviceaccount.com)
-            # was deleted from this project. Firebase hardcodes a lookup for it and uses it as
-            # the Cloud Function runtime SA. Patch getDefaultServiceAccount to return the
-            # dedicated deploy-runner SA instead.
-            COMPUTE_JS="$(npm root -g)/firebase-tools/lib/gcp/computeEngine.js"
-            sed -i 's|return res.body.defaultServiceAccount;|return "deploy-runner@strata-org.iam.gserviceaccount.com";|' "$COMPUTE_JS"
-            sed -i 's|const bestGuess = .*compute@developer.*|const bestGuess = "deploy-runner@strata-org.iam.gserviceaccount.com";|' "$COMPUTE_JS"
 
             firebase experiments:enable webframeworks
             corepack enable pnpm
