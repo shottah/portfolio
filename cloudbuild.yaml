@@ -1,0 +1,24 @@
+steps:
+  - name: 'node:22'
+    id: install
+    entrypoint: bash
+    args:
+      - -c
+      - corepack enable pnpm && pnpm install --frozen-lockfile
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: create-release
+    entrypoint: gcloud
+    args:
+      - deploy
+      - releases
+      - create
+      - release-$SHORT_SHA
+      - --delivery-pipeline=portfolio
+      - --region=us-central1
+      - --project=strata-org
+      - --source=.
+      - --skaffold-file=skaffold.yaml
+
+options:
+  logging: CLOUD_LOGGING_ONLY

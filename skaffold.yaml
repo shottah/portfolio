@@ -1,0 +1,17 @@
+apiVersion: skaffold/v4beta7
+kind: Config
+metadata:
+  name: portfolio
+customActions:
+  - name: firebase-hosting-deploy
+    containers:
+      - name: deploy
+        image: node:22-slim
+        command:
+          - /bin/bash
+          - -c
+          - |
+            npm install -g firebase-tools
+            corepack enable pnpm
+            pnpm install --frozen-lockfile
+            firebase deploy --only hosting --project strata-org --non-interactive

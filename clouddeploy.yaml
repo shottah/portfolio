@@ -1,0 +1,31 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: CustomTargetType
+metadata:
+  name: firebase-hosting
+customActions:
+  deployAction: firebase-hosting-deploy
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+  name: portfolio
+serialPipeline:
+  stages:
+    - targetId: portfolio-staging
+    - targetId: portfolio-production
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: portfolio-staging
+requireApproval: false
+customTarget:
+  customTargetType: firebase-hosting
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: portfolio-production
+requireApproval: true
+customTarget:
+  customTargetType: firebase-hosting
