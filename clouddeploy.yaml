@@ -19,6 +19,9 @@ kind: Target
 metadata:
   name: portfolio-staging
 requireApproval: false
+executionConfigs:
+  - usages: [RENDER, DEPLOY]
+    serviceAccount: deploy-runner@strata-org.iam.gserviceaccount.com
 customTarget:
   customTargetType: firebase-hosting
 ---
@@ -27,5 +30,8 @@ kind: Target
 metadata:
   name: portfolio-production
 requireApproval: true
+executionConfigs:
+  - usages: [RENDER, DEPLOY]
+    serviceAccount: deploy-runner@strata-org.iam.gserviceaccount.com
 customTarget:
   customTargetType: firebase-hosting
