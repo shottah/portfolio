@@ -1,0 +1,24 @@
+# Firebase App Hosting configuration
+# https://firebase.google.com/docs/app-hosting/configure
+#
+# Builds with Cloud Build buildpacks (pnpm detected via packageManager +
+# pnpm-lock.yaml) and serves the Next.js server on Cloud Run behind Cloud CDN.
+
+runConfig:
+  # Portfolio is low-traffic — scale to zero when idle to avoid idle cost.
+  minInstances: 0
+  maxInstances: 2
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
+
+# GITHUB_TOKEN raises GitHub API rate limits for the OSS activity feed
+# (lib/github.ts). Needed at BUILD (initial SSG render) and RUNTIME (ISR
+# revalidation every 24h). Value lives in Secret Manager; set it once with:
+#   firebase apphosting:secrets:set GITHUB_TOKEN
+env:
+  - variable: GITHUB_TOKEN
+    secret: GITHUB_TOKEN
+    availability:
+      - BUILD
+      - RUNTIME
