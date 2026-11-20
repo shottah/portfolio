@@ -14,12 +14,14 @@ London, England, United Kingdom
 
 ## Stuff I Do
 
+- writing code [https://github.com/shottah](https://github.com/shottah)
+  - adaptive quizzes written by Claude [quizroom](https://github.com/shottah/quizroom)
+  - EVM transaction inspector [tracer_](https://tracer.shottah.xyz)
 - payment systems [Web3 & Mobile Banking]
   - caribbean e-money [wam.money](https://wam.money)
   - localized regenerative finance [kolektivo.co](https://kolektivo.co)
 - blockchain [DeFi, RWA tokenization]
   - collectibles marketplace [AmericanaNFT](https://x.com/AmericanaNFT)
-- writing code [https://github.com/shottah](https://github.com/shottah)
 
 ## Education
 
